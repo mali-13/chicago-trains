@@ -19,6 +19,13 @@ class Producer:
     # Tracks existing topics across all Producer instances
     existing_topics = set([])
 
+    def init_existing_topics(self):
+        client = AdminClient(self.broker_properties)
+        topic_metadata = client.list_topics(timeout=5)
+        self.existing_topics = set(
+            t.topic for t in iter(topic_metadata.topics.values())
+        )
+
     def __init__(
         self,
         topic_name,
@@ -41,6 +48,9 @@ class Producer:
         #
         #
         self.broker_properties = {"bootstrap.servers": BROKER_URL}
+
+        # Get existing topics
+        self.init_existing_topics()
 
         # If the topic does not already exist, try to create it
         if self.topic_name not in Producer.existing_topics:

@@ -37,7 +37,7 @@ class Station(Producer):
         # replicas
         #
         #
-        topic_name = f"{station_name}"
+        topic_name = f"com.udacity.streams.stations.{station_name}.arrivals"
         super().__init__(
             topic_name,
             key_schema=Station.key_schema,
