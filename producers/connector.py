@@ -47,8 +47,8 @@ def configure_connector():
                     "table.whitelist": "stations",
                     "mode": "incrementing",
                     "incrementing.column.name": "stop_id",
-                    "topic.prefix": "udacity.com.connect.jdbc.",
-                    "poll.interval.ms": sys.maxsize,
+                    "topic.prefix": "com.udacity.connect.jdbc.",
+                    "poll.interval.ms": 2147483647,
                 },
             }
         ),
