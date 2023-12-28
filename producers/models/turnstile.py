@@ -31,7 +31,7 @@ class Turnstile(Producer):
             .replace("'", "")
         )
 
-        topic_name = f"com.udacity.streams.stations.{station_name}.turnstiles"
+        topic_name = f"com.udacity.streams.turnstiles"
 
         #
         #

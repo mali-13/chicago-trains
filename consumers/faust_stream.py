@@ -37,8 +37,10 @@ topic = app.topic("com.udacity.connect.jdbc.stations", value_type=Station)
 out_topic = app.topic("com.udacity.faust.streams.stations", partitions=1, value_type=TransformedStation)
 # Define a Faust Table
 table = app.Table(
-    name="line-mappings",
-    default=str
+   name="transformed-stations",
+   default=TransformedStation,
+   partitions=1,
+   changelog_topic=out_topic,
 )
 
 
@@ -52,18 +54,12 @@ table = app.Table(
 @app.agent(topic)
 async def tranformStations(stations):
     async for station in stations:
-        table[station.station_id] = get_line(station)
-
-        transformedStation = TransformedStation(
+        table[station.station_id] = TransformedStation(
             station_id=station.station_id,
             station_name=station.station_name,
             order=station.order,
-            line=table[station.station_id]
+            line=get_line(station)
         )
-
-        await out_topic.send(value=transformedStation)
-
-
 
 def get_line(station):
     if station.red:
