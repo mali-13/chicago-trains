@@ -41,12 +41,12 @@ class MainHandler(tornado.web.RequestHandler):
 
 def run_server():
     """Runs the Tornado Server and begins Kafka consumption"""
-    if topic_check.topic_exists("TURNSTILE_SUMMARY") is False:
+    if topic_check.topic_exists("com.udacity.tables.turnstile_summary") is False:
         logger.fatal(
             "Ensure that the KSQL Command has run successfully before running the web server!"
         )
         exit(1)
-    if topic_check.topic_exists("org.chicago.cta.stations.table.v1") is False:
+    if topic_check.topic_exists("com.udacity.faust.streams.stations") is False:
         logger.fatal(
             "Ensure that Faust Streaming is running successfully before running the web server!"
         )
@@ -63,26 +63,26 @@ def run_server():
     # Build kafka consumers
     consumers = [
         KafkaConsumer(
-            "org.chicago.cta.weather.v1",
+            "com.udacity.streams.weather-status-items",
             weather_model.process_message,
             offset_earliest=True,
         ),
         KafkaConsumer(
-            "org.chicago.cta.stations.table.v1",
+            "com.udacity.faust.streams.stations",
             lines.process_message,
             offset_earliest=True,
             is_avro=False,
         ),
         KafkaConsumer(
-            "^org.chicago.cta.station.arrivals.",
+            "com.udacity.streams.stations.arrivals",
             lines.process_message,
             offset_earliest=True,
         ),
         KafkaConsumer(
-            "TURNSTILE_SUMMARY",
+            "com.udacity.tables.turnstile_summary",
             lines.process_message,
             offset_earliest=True,
-            is_avro=False,
+            is_avro=True,
         ),
     ]
 
