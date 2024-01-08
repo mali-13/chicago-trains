@@ -47,14 +47,9 @@ class KafkaConsumer:
         # Create the Consumer, using the appropriate type.
         if is_avro is True:
             self.broker_properties["schema.registry.url"] = SCHEMA_REGISTRY_URL
-            #
-            # Create a CachedSchemaRegistryClient
-            #
-            # schema_registry = CachedSchemaRegistryClient({"url": SCHEMA_REGISTRY_URL})
             self.consumer = AvroConsumer(config=self.broker_properties)
         else:
             self.consumer = Consumer(self.broker_properties)
-            pass
 
         #
         #
@@ -68,6 +63,8 @@ class KafkaConsumer:
 
     def on_assign(self, consumer, partitions):
         """Callback for when topic assignment takes place"""
+        if self.broker_properties["auto.offset.reset"] != "earliest":
+            return
         # If the topic is configured to use `offset_earliest` set the partition offset to
         # the beginning or earliest
         for partition in partitions:
@@ -102,6 +99,7 @@ class KafkaConsumer:
             return 0
         else:
             print(f"{message.key()}: {message.value()}")
+            self.message_handler(message)
             return 1
 
     def close(self):

@@ -104,7 +104,10 @@ class Weather(Producer):
                     "records": [
                         {
                             "key": {"timestamp": self.time_millis()},
-                            "value": {"temperature": self.temp, "status": self.status},
+                            "value": {
+                                "temperature": self.temp,
+                                "status": self.status.name,
+                            },
                         }
                     ],
                 }

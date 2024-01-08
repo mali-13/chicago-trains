@@ -19,7 +19,10 @@ class Lines:
 
     def process_message(self, message):
         """Processes a station message"""
-        if "com.udacity.faust.streams.stations" in message.topic():
+        if (
+            "com.udacity.faust.streams.stations" in message.topic()
+            or "com.udacity.streams.stations.arrivals" in message.topic()
+        ):
             value = message.value()
             if message.topic() == "com.udacity.faust.streams.stations":
                 value = json.loads(value)

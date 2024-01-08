@@ -34,8 +34,9 @@ CREATE TABLE turnstile (
 
 CREATE TABLE turnstile_summary
 WITH (
-    PARTITIONS=10, 
-    KAFKA_TOPIC = 'com.udacity.tables.turnstile_summary'
+    PARTITIONS=10,
+    KAFKA_TOPIC = 'com.udacity.tables.turnstile_summary',
+    VALUE_FORMAT = 'JSON'
 ) AS
     SELECT station_id, COUNT(station_id) as total
     FROM turnstile

@@ -23,16 +23,7 @@ class Turnstile(Producer):
 
     def __init__(self, station):
         """Create the Turnstile"""
-        station_name = (
-            station.name.lower()
-            .replace("/", "_and_")
-            .replace(" ", "_")
-            .replace("-", "_")
-            .replace("'", "")
-        )
-
         topic_name = f"com.udacity.streams.turnstiles"
-
         #
         #
         # Complete the below by deciding on a topic name, number of partitions, and number of
@@ -65,6 +56,6 @@ class Turnstile(Producer):
                 value={
                     "station_id": self.station.station_id,
                     "station_name": self.station.name,
-                    "line": "L",
+                    "line": self.station.name,
                 },
             )

@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 
 KAFKA_CONNECT_URL = "http://localhost:8083/connectors"
-CONNECTOR_NAME = "stations"
+CONNECTOR_NAME = "station"
 
 
 def configure_connector():
@@ -48,7 +48,7 @@ def configure_connector():
                     "mode": "incrementing",
                     "incrementing.column.name": "stop_id",
                     "topic.prefix": "com.udacity.connect.jdbc.",
-                    "poll.interval.ms": 2147483647,
+                    "poll.interval.ms": 5000,
                 },
             }
         ),

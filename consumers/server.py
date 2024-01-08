@@ -81,8 +81,8 @@ def run_server():
         KafkaConsumer(
             "com.udacity.tables.turnstile_summary",
             lines.process_message,
+            is_avro=False,
             offset_earliest=True,
-            is_avro=True,
         ),
     ]
 
