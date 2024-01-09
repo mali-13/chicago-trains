@@ -21,7 +21,7 @@ class Lines:
         """Processes a station message"""
         if (
             "com.udacity.faust.streams.stations" in message.topic()
-            or "com.udacity.streams.stations.arrivals" in message.topic()
+            or "com.udacity.streams.stations" in message.topic()
         ):
             value = message.value()
             if message.topic() == "com.udacity.faust.streams.stations":

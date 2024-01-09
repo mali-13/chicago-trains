@@ -22,13 +22,22 @@ class Station(Producer):
     value_schema = avro.load(f"{Path(__file__).parents[0]}/schemas/arrival_value.json")
 
     def __init__(self, station_id, name, color, direction_a=None, direction_b=None):
+        self.name = name
+        station_name = (
+            self.name.lower()
+            .replace("/", "_and_")
+            .replace(" ", "_")
+            .replace("-", "_")
+            .replace("'", "")
+        )
         #
         #
         # Complete the below by deciding on a topic name, number of partitions, and number of
         # replicas
         #
         #
-        topic_name = f"com.udacity.streams.stations.arrivals"
+        topic_name = f"com.udacity.streams.stations.{station_name}.arrivals"
+
         super().__init__(
             topic_name,
             key_schema=Station.key_schema,
@@ -38,7 +47,6 @@ class Station(Producer):
         )
 
         self.station_id = int(station_id)
-        self.name = name
         self.color = color
         self.dir_a = direction_a
         self.dir_b = direction_b

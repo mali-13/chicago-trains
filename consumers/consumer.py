@@ -41,7 +41,7 @@ class KafkaConsumer:
         self.broker_properties = {
             "bootstrap.servers": BROKER_URL,
             "group.id": "0",
-            "auto.offset.reset": "earliest",
+            "auto.offset.reset": "earliest" if offset_earliest else "latest",
         }
 
         # Create the Consumer, using the appropriate type.

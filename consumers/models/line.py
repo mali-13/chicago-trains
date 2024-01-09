@@ -62,7 +62,7 @@ class Line:
                 self._handle_station(value)
             except Exception as e:
                 logger.fatal("bad station? %s, %s", value, e)
-        elif message.topic() == "com.udacity.streams.stations.arrivals":
+        elif "com.udacity.streams.stations" in message.topic():
             self._handle_arrival(message)
         elif message.topic() == "com.udacity.tables.turnstile_summary":
             json_data = json.loads(message.value())
